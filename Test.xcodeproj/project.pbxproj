@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		620387922E292FA400058180 /* FetchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620387912E292FA400058180 /* FetchData.swift */; };
 		621D1A692BADBF4700338E95 /* Spline3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621D1A682BADBF4700338E95 /* Spline3D.swift */; };
 		621D1A6C2BADC03300338E95 /* SplineRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 621D1A6B2BADC03300338E95 /* SplineRuntime */; };
 		6240665D2BC0F78F00487D7A /* CustomDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6240665C2BC0F78F00487D7A /* CustomDialogView.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		620387912E292FA400058180 /* FetchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchData.swift; sourceTree = "<group>"; };
 		621D1A682BADBF4700338E95 /* Spline3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spline3D.swift; sourceTree = "<group>"; };
 		6240665C2BC0F78F00487D7A /* CustomDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialogView.swift; sourceTree = "<group>"; };
 		6240665E2BC1418C00487D7A /* TestDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDialogView.swift; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		620387902E292F4D00058180 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				620387912E292FA400058180 /* FetchData.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		624066602BC1439100487D7A /* CustomDialog */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +124,7 @@
 				62CCD23A2BE5175900F401E8 /* SymbolAnimationView.swift */,
 				6265A1F22C4A594200D1EB14 /* PlaceHolderView.swift */,
 				6244BD0D2C7C7AA70029B938 /* RenderView.swift */,
+				620387902E292F4D00058180 /* Network */,
 				625A9A352B956A4D00740AFA /* Preview Content */,
 				625A9A362B956A4D00740AFA /* Preview Assets.xcassets */,
 			);
@@ -224,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6287AC2B2BB7D2BA00E8C761 /* ScrollCardTest.swift in Sources */,
+				620387922E292FA400058180 /* FetchData.swift in Sources */,
 				62E41B342BA82FAE00F1288F /* SteperStyle.swift in Sources */,
 				62CB6FEE2BC3CE5C0046569A /* CustomTabBarView2.swift in Sources */,
 				6287AC1F2BB568BF00E8C761 /* ScrollTest.swift in Sources */,
