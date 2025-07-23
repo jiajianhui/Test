@@ -53,11 +53,14 @@ struct ChartTitle: View {
     let title: String
     
     var body: some View {
-        Text("hello")
-            .font(.callout)
-            .foregroundStyle(.secondary)
-        Text(title)
-            .font(.title2.bold())
+        VStack(alignment: .leading) {
+            Text("hello")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+            Text(title)
+                .font(.title2.bold())
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

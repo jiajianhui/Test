@@ -39,59 +39,121 @@ struct Series: Identifiable {
 }
 
 private let seriesData: [Series] = [
-    .init(city: "curpertinoD", sales: curpertinoData),
+    .init(city: "Curpertino", sales: curpertinoData),
     .init(city: "San Fracisco", sales: SFData)
 ]
 
 struct LocationsDetail: View {
     
     var body: some View {
-        VStack(alignment: .leading) {
-            
+        ScrollView {
             ChartTitle(title: "Location Detail Sales")
-            
-            // 样式1
-            Chart(seriesData) { series in
-                ForEach(series.sales) { element in
-                    BarMark(
-                        x: .value("week", element.weekday),
-                        y: .value("sales", element.sales)
-                    )
-                    .foregroundStyle(by: .value("city", series.city))
+                .padding(.horizontal)
+            VStack(alignment: .leading, spacing: 60) {
+                
+                
+                
+                Chart(seriesData) { series in
+                    ForEach(series.sales) { element in
+                        BarMark(
+                            x: .value("week", element.weekday),
+                            y: .value("sales", element.sales)
+                        )
+                        .foregroundStyle(by: .value("city", series.city))
+                    }
                 }
-            }
-            
-            Divider()
-                .padding(.vertical, 40)
-            
-            // 样式2
-            Chart(seriesData) { series in
-                ForEach(series.sales) { element in
-                    LineMark(
-                        x: .value("week", element.weekday),
-                        y: .value("sales", element.sales)
-                    )
-                    .foregroundStyle(by: .value("city", series.city))
+                
+                
+                
+                Chart(seriesData) { series in
+                    ForEach(series.sales) { element in
+                        BarMark(
+                            x: .value("week", element.weekday),
+                            y: .value("sales", element.sales)
+                        )
+                        .foregroundStyle(by: .value("city", series.city))
+                        .position(by: .value("city", series.city))
+                    }
                 }
-            }
-            
-            Divider()
-                .padding(.vertical, 40)
-            
-            // 样式3
-            Chart(seriesData) { series in
-                ForEach(series.sales) { element in
-                    LineMark(
-                        x: .value("week", element.weekday),
-                        y: .value("sales", element.sales)
-                    )
-                    .foregroundStyle(by: .value("city", series.city))
-                    .symbol(by: .value("city", series.city))
+                // 更改chart颜色
+                .chartForegroundStyleScale([
+                    "Curpertino": .purple,
+                    "San Fracisco": .orange,
+                ])
+                .chartYAxis {
+                    AxisMarks(preset: .extended, position: .leading)
                 }
+                
+                
+                Chart(seriesData) { series in
+                    ForEach(series.sales) { element in
+                        BarMark(
+                            x: .value("week", element.weekday),
+                            y: .value("sales", element.sales)
+                        )
+                        .foregroundStyle(by: .value("city", series.city))
+                        .position(by: .value("city", series.city))
+                    }
+                }
+                // 更改chart颜色
+                .chartForegroundStyleScale([
+                    "Curpertino": .red,
+                    "San Fracisco": .cyan,
+                ])
+                // 移除坐标轴、图例
+                .chartXAxis(.hidden)
+                .chartYAxis(.hidden)
+                .chartLegend(.hidden)
+                
+                
+                Chart(seriesData) { series in
+                    ForEach(series.sales) { element in
+                        LineMark(
+                            x: .value("week", element.weekday),
+                            y: .value("sales", element.sales)
+                        )
+                        .foregroundStyle(by: .value("city", series.city))
+                    }
+                }
+                .chartPlotStyle { plotArea in
+                    plotArea.background(.pink.opacity(0.2))
+                        .border(.pink, width: 1)
+                }
+                
+                
+                Chart(seriesData) { series in
+                    ForEach(series.sales) { element in
+                        LineMark(
+                            x: .value("week", element.weekday),
+                            y: .value("sales", element.sales)
+                        )
+                        .foregroundStyle(by: .value("city", series.city))
+                        .symbol(by: .value("city", series.city))
+                    }
+                }
+                
+                
+                
+                
+                Chart(seriesData) { series in
+                    ForEach(series.sales) { element in
+                        LineMark(
+                            x: .value("week", element.weekday),
+                            y: .value("sales", element.sales)
+                        )
+                        .foregroundStyle(by: .value("city", series.city))
+                        .symbol(by: .value("city", series.city))
+                        .interpolationMethod(.catmullRom)
+                    }
+                }
+                
             }
-            
+            // 更改绘图区的尺寸
+            .chartPlotStyle { plotArea in
+                plotArea.frame(height: 160)
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
