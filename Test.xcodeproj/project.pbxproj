@@ -15,6 +15,9 @@
 		620388662E2F35E600058180 /* LocationsToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620388652E2F35E600058180 /* LocationsToggle.swift */; };
 		620388682E2F716300058180 /* LocationsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620388672E2F716300058180 /* LocationsDetail.swift */; };
 		620388D62E30F9F800058180 /* PieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620388D52E30F9F800058180 /* PieChart.swift */; };
+		62052DA52E37248B00F171D9 /* CustomCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62052DA42E37248B00F171D9 /* CustomCameraView.swift */; };
+		62052DA72E3724AC00F171D9 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62052DA62E3724AC00F171D9 /* CameraViewController.swift */; };
+		62052DAB2E3724E700F171D9 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62052DAA2E3724E700F171D9 /* CameraView.swift */; };
 		621D1A692BADBF4700338E95 /* Spline3D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621D1A682BADBF4700338E95 /* Spline3D.swift */; };
 		621D1A6C2BADC03300338E95 /* SplineRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 621D1A6B2BADC03300338E95 /* SplineRuntime */; };
 		6240665D2BC0F78F00487D7A /* CustomDialogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6240665C2BC0F78F00487D7A /* CustomDialogView.swift */; };
@@ -49,6 +52,9 @@
 		620388652E2F35E600058180 /* LocationsToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsToggle.swift; sourceTree = "<group>"; };
 		620388672E2F716300058180 /* LocationsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsDetail.swift; sourceTree = "<group>"; };
 		620388D52E30F9F800058180 /* PieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChart.swift; sourceTree = "<group>"; };
+		62052DA42E37248B00F171D9 /* CustomCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraView.swift; sourceTree = "<group>"; };
+		62052DA62E3724AC00F171D9 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		62052DAA2E3724E700F171D9 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		621D1A682BADBF4700338E95 /* Spline3D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spline3D.swift; sourceTree = "<group>"; };
 		6240665C2BC0F78F00487D7A /* CustomDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialogView.swift; sourceTree = "<group>"; };
 		6240665E2BC1418C00487D7A /* TestDialogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDialogView.swift; sourceTree = "<group>"; };
@@ -108,6 +114,16 @@
 			path = SwiftCharts;
 			sourceTree = "<group>";
 		};
+		62052DA32E37245800F171D9 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				62052DA42E37248B00F171D9 /* CustomCameraView.swift */,
+				62052DA62E3724AC00F171D9 /* CameraViewController.swift */,
+				62052DAA2E3724E700F171D9 /* CameraView.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
 		624066602BC1439100487D7A /* CustomDialog */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +152,7 @@
 		625A9A2E2B956A4C00740AFA /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				62052DA32E37245800F171D9 /* Camera */,
 				625A9A2F2B956A4C00740AFA /* TestApp.swift */,
 				625A9A312B956A4C00740AFA /* ContentView.swift */,
 				625A9A452B95D55300740AFA /* ColorfulBtn.swift */,
@@ -263,16 +280,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62052DA52E37248B00F171D9 /* CustomCameraView.swift in Sources */,
 				6287AC2B2BB7D2BA00E8C761 /* ScrollCardTest.swift in Sources */,
 				620387922E292FA400058180 /* FetchData.swift in Sources */,
 				620388642E2F2EC200058180 /* CupertinoDetail.swift in Sources */,
 				62E41B342BA82FAE00F1288F /* SteperStyle.swift in Sources */,
 				62CB6FEE2BC3CE5C0046569A /* CustomTabBarView2.swift in Sources */,
 				6287AC1F2BB568BF00E8C761 /* ScrollTest.swift in Sources */,
+				62052DAB2E3724E700F171D9 /* CameraView.swift in Sources */,
 				620388662E2F35E600058180 /* LocationsToggle.swift in Sources */,
 				625A9A462B95D55300740AFA /* ColorfulBtn.swift in Sources */,
 				62CB6FE72BC2382E0046569A /* ScrollEffectView.swift in Sources */,
 				620387962E2B40EE00058180 /* LoadUserInfo.swift in Sources */,
+				62052DA72E3724AC00F171D9 /* CameraViewController.swift in Sources */,
 				62CB6FE92BC2775C0046569A /* CustomNavBarView.swift in Sources */,
 				62CB6FF02BC628870046569A /* CustomTabBarView3.swift in Sources */,
 				6240665F2BC1418C00487D7A /* TestDialogView.swift in Sources */,
@@ -428,6 +448,7 @@
 				DEVELOPMENT_TEAM = ML2CJSB2YZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"使用相机拍照\"";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -460,6 +481,7 @@
 				DEVELOPMENT_TEAM = ML2CJSB2YZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"使用相机拍照\"";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
