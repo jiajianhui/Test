@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import SwiftUI
 
 protocol CameraViewControllerDelegate: AnyObject {
     func didCapturePhoto(_ image: UIImage)
@@ -21,6 +22,7 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, UII
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black // 设置默认背景为黑色
         setupCamera()
         setupUI()
     }
@@ -45,68 +47,41 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, UII
         previewLayer.videoGravity = .resizeAspectFill
         view.layer.addSublayer(previewLayer)
 
-        session.startRunning()
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.session.startRunning()
+        }
+
     }
 
     
     // 拍摄界面功能区
     private func setupUI() {
-        // 1️⃣ 底部背景容器（毛玻璃）
-        let blurEffect = UIBlurEffect(style: .systemMaterialLight)
-        let backgroundView = UIVisualEffectView(effect: blurEffect)
-        backgroundView.layer.cornerRadius = 20
-        backgroundView.layer.masksToBounds = true
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(backgroundView)
-        
-        // 2️⃣ 拍照按钮
-        let captureButton = UIButton(type: .system)
-        captureButton.setTitle("📸", for: .normal)
-        captureButton.titleLabel?.font = UIFont.systemFont(ofSize: 32)
-        captureButton.backgroundColor = UIColor.white
-        captureButton.tintColor = .black
-        captureButton.layer.cornerRadius = 35
-        captureButton.translatesAutoresizingMaskIntoConstraints = false
-        captureButton.addTarget(self, action: #selector(capturePhoto), for: .touchUpInside)
-        backgroundView.contentView.addSubview(captureButton) // ✅ 添加到 contentView
-        
-        // 3️⃣ 返回按钮
-        let backButton = UIButton(type: .system)
-        backButton.setTitle("←", for: .normal)
-        backButton.titleLabel?.font = UIFont.systemFont(ofSize: 24)
-        backButton.tintColor = .black
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        backButton.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
-        backgroundView.contentView.addSubview(backButton) // ✅ 添加到 contentView
-        
-        // 4️⃣ 图库按钮
-        let galleryButton = UIButton(type: .system)
-        galleryButton.setTitle("📁", for: .normal)
-        galleryButton.titleLabel?.font = UIFont.systemFont(ofSize: 24)
-        galleryButton.tintColor = .black
-        galleryButton.translatesAutoresizingMaskIntoConstraints = false
-        galleryButton.addTarget(self, action: #selector(didTapGallery), for: .touchUpInside)
-        backgroundView.contentView.addSubview(galleryButton) // ✅ 添加到 contentView
+        // 直接创建 SwiftUI 的控制按钮视图
+        let controlsView = CameraControlsView(
+            onCapture: { [weak self] in self?.capturePhoto() },
+            onBack: { [weak self] in self?.didTapBack() },
+            onGallery: { [weak self] in self?.didTapGallery() },
+            btnBG: .white
+        )
 
-        // 5️⃣ 约束
+        let hostingController = UIHostingController(rootView: controlsView)
+        
+        // 默认 UIKit 的 UIView 背景是白色，需要手动清除
+        hostingController.view.backgroundColor = .clear
+        
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
-            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            backgroundView.heightAnchor.constraint(equalToConstant: 180),
-
-            captureButton.centerXAnchor.constraint(equalTo: backgroundView.contentView.centerXAnchor),
-            captureButton.centerYAnchor.constraint(equalTo: backgroundView.contentView.centerYAnchor),
-            captureButton.widthAnchor.constraint(equalToConstant: 70),
-            captureButton.heightAnchor.constraint(equalToConstant: 70),
-            
-            backButton.leadingAnchor.constraint(equalTo: backgroundView.contentView.leadingAnchor, constant: 20),
-            backButton.centerYAnchor.constraint(equalTo: backgroundView.contentView.centerYAnchor),
-
-            galleryButton.trailingAnchor.constraint(equalTo: backgroundView.contentView.trailingAnchor, constant: -20),
-            galleryButton.centerYAnchor.constraint(equalTo: backgroundView.contentView.centerYAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+//            hostingController.view.heightAnchor.constraint(equalToConstant: 180) // 设置高度
         ])
+        hostingController.didMove(toParent: self)
     }
+
 
 
 
