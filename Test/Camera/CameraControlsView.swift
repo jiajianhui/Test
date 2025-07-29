@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 // 相机界面按钮
 struct CameraControlsView: View {
@@ -13,10 +14,15 @@ struct CameraControlsView: View {
     // 按钮函数
     var onCapture: () -> Void
     var onBack: () -> Void
-    var onGallery: () -> Void
+    var onGallery: (UIImage) -> Void
+    
     
     var btnBG: Color = .red
     var iconColor: Color = .primary
+    
+    // 图库相关
+    @State private var selectedImage: PhotosPickerItem? = nil
+    
     
     var body: some View {
         HStack {
@@ -53,9 +59,7 @@ struct CameraControlsView: View {
             Spacer()
             
             // 相册按钮
-            Button {
-                onGallery()
-            } label: {
+            PhotosPicker(selection: $selectedImage, photoLibrary: .shared()) {
                 ZStack {
                     Circle()
                         .fill(btnBG)
@@ -69,13 +73,25 @@ struct CameraControlsView: View {
         .foregroundStyle(iconColor)
         .padding()
         .background(.regularMaterial)
+        
+        // 监测图库选择的照片
+        .onChange(of: selectedImage) { _, newItem in
+            if let newItem {
+                Task {
+                    if let data = try? await newItem.loadTransferable(type: Data.self),
+                       let uiImage = UIImage(data: data) {
+                        onGallery(uiImage) // ✅ 回调
+                    }
+                }
+            }
+        }
+
     }
 }
 
 #Preview {
     ZStack {
         Color.green
-        CameraControlsView(onCapture: {}, onBack: {}, onGallery: {})
-        
+        CameraControlsView(onCapture: {}, onBack: {}, onGallery: {_ in })
     }
 }

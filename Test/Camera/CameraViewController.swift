@@ -60,7 +60,9 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, UII
         let controlsView = CameraControlsView(
             onCapture: { [weak self] in self?.capturePhoto() },
             onBack: { [weak self] in self?.didTapBack() },
-            onGallery: { [weak self] in self?.didTapGallery() },
+            onGallery: { [weak self] image in
+                self?.delegate?.didCapturePhoto(image)
+            },
             btnBG: .white
         )
 
@@ -90,20 +92,6 @@ class CameraViewController: UIViewController, AVCapturePhotoCaptureDelegate, UII
         dismiss(animated: true)
     }
 
-    @objc private func didTapGallery() {
-        let picker = UIImagePickerController()
-        picker.sourceType = .photoLibrary
-        picker.delegate = self
-        present(picker, animated: true)
-    }
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true)
-
-        if let image = info[.originalImage] as? UIImage {
-            delegate?.didCapturePhoto(image)
-        }
-    }
 
 
     @objc private func capturePhoto() {
