@@ -30,9 +30,19 @@
 		625A9A372B956A4D00740AFA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 625A9A362B956A4D00740AFA /* Preview Assets.xcassets */; };
 		625A9A462B95D55300740AFA /* ColorfulBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625A9A452B95D55300740AFA /* ColorfulBtn.swift */; };
 		6265A1F32C4A594200D1EB14 /* PlaceHolderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6265A1F22C4A594200D1EB14 /* PlaceHolderView.swift */; };
+		62671A4B2E924FF20052628F /* StickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A4A2E924FF20052628F /* StickerViewModel.swift */; };
+		62671A4E2E9250940052628F /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A4D2E9250940052628F /* BackgroundView.swift */; };
+		62671A502E92514A0052628F /* StarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A4F2E92514A0052628F /* StarsView.swift */; };
+		62671A522E9252A10052628F /* BottomButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A512E9252A10052628F /* BottomButtonsView.swift */; };
+		62671A542E9253850052628F /* InitialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A532E9253850052628F /* InitialView.swift */; };
+		62671A562E92546A0052628F /* AnalyzingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A552E92546A0052628F /* AnalyzingView.swift */; };
+		62671A582E92633B0052628F /* ExtractingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A572E92633B0052628F /* ExtractingView.swift */; };
+		62671A5A2E9264D00052628F /* CompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A592E9264D00052628F /* CompletedView.swift */; };
 		627CF1682BBFBE7F0075325A /* NavigationDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627CF1672BBFBE7F0075325A /* NavigationDemo.swift */; };
 		6287AC1F2BB568BF00E8C761 /* ScrollTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6287AC1E2BB568BF00E8C761 /* ScrollTest.swift */; };
 		6287AC2B2BB7D2BA00E8C761 /* ScrollCardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6287AC2A2BB7D2BA00E8C761 /* ScrollCardTest.swift */; };
+		62A748512E8AED8900BBB4D7 /* StickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A748502E8AED8900BBB4D7 /* StickerView.swift */; };
+		62A748552E8AFA7300BBB4D7 /* NewStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A748542E8AFA7300BBB4D7 /* NewStickerView.swift */; };
 		62CB6FE72BC2382E0046569A /* ScrollEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CB6FE62BC2382E0046569A /* ScrollEffectView.swift */; };
 		62CB6FE92BC2775C0046569A /* CustomNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CB6FE82BC2775C0046569A /* CustomNavBarView.swift */; };
 		62CB6FEB2BC39DCF0046569A /* CustomTabBarView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CB6FEA2BC39DCF0046569A /* CustomTabBarView1.swift */; };
@@ -68,9 +78,19 @@
 		625A9A362B956A4D00740AFA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		625A9A452B95D55300740AFA /* ColorfulBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorfulBtn.swift; sourceTree = "<group>"; };
 		6265A1F22C4A594200D1EB14 /* PlaceHolderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderView.swift; sourceTree = "<group>"; };
+		62671A4A2E924FF20052628F /* StickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerViewModel.swift; sourceTree = "<group>"; };
+		62671A4D2E9250940052628F /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		62671A4F2E92514A0052628F /* StarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarsView.swift; sourceTree = "<group>"; };
+		62671A512E9252A10052628F /* BottomButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtonsView.swift; sourceTree = "<group>"; };
+		62671A532E9253850052628F /* InitialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialView.swift; sourceTree = "<group>"; };
+		62671A552E92546A0052628F /* AnalyzingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyzingView.swift; sourceTree = "<group>"; };
+		62671A572E92633B0052628F /* ExtractingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtractingView.swift; sourceTree = "<group>"; };
+		62671A592E9264D00052628F /* CompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedView.swift; sourceTree = "<group>"; };
 		627CF1672BBFBE7F0075325A /* NavigationDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDemo.swift; sourceTree = "<group>"; };
 		6287AC1E2BB568BF00E8C761 /* ScrollTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTest.swift; sourceTree = "<group>"; };
 		6287AC2A2BB7D2BA00E8C761 /* ScrollCardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollCardTest.swift; sourceTree = "<group>"; };
+		62A748502E8AED8900BBB4D7 /* StickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerView.swift; sourceTree = "<group>"; };
+		62A748542E8AFA7300BBB4D7 /* NewStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStickerView.swift; sourceTree = "<group>"; };
 		62CB6FE62BC2382E0046569A /* ScrollEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollEffectView.swift; sourceTree = "<group>"; };
 		62CB6FE82BC2775C0046569A /* CustomNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBarView.swift; sourceTree = "<group>"; };
 		62CB6FEA2BC39DCF0046569A /* CustomTabBarView1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView1.swift; sourceTree = "<group>"; };
@@ -172,6 +192,8 @@
 				62CCD23A2BE5175900F401E8 /* SymbolAnimationView.swift */,
 				6265A1F22C4A594200D1EB14 /* PlaceHolderView.swift */,
 				6244BD0D2C7C7AA70029B938 /* RenderView.swift */,
+				62A748502E8AED8900BBB4D7 /* StickerView.swift */,
+				62671A492E924F9E0052628F /* Sticker App */,
 				620388602E2F260B00058180 /* SwiftCharts */,
 				620387902E292F4D00058180 /* Network */,
 				625A9A352B956A4D00740AFA /* Preview Content */,
@@ -185,6 +207,30 @@
 			children = (
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		62671A492E924F9E0052628F /* Sticker App */ = {
+			isa = PBXGroup;
+			children = (
+				62A748542E8AFA7300BBB4D7 /* NewStickerView.swift */,
+				62671A4C2E9250120052628F /* Views */,
+				62671A4A2E924FF20052628F /* StickerViewModel.swift */,
+			);
+			path = "Sticker App";
+			sourceTree = "<group>";
+		};
+		62671A4C2E9250120052628F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				62671A532E9253850052628F /* InitialView.swift */,
+				62671A592E9264D00052628F /* CompletedView.swift */,
+				62671A572E92633B0052628F /* ExtractingView.swift */,
+				62671A552E92546A0052628F /* AnalyzingView.swift */,
+				62671A4D2E9250940052628F /* BackgroundView.swift */,
+				62671A4F2E92514A0052628F /* StarsView.swift */,
+				62671A512E9252A10052628F /* BottomButtonsView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		62CB6FE52BC237F40046569A /* Scroll */ = {
@@ -285,10 +331,14 @@
 			files = (
 				62052DA52E37248B00F171D9 /* CustomCameraView.swift in Sources */,
 				6287AC2B2BB7D2BA00E8C761 /* ScrollCardTest.swift in Sources */,
+				62671A5A2E9264D00052628F /* CompletedView.swift in Sources */,
 				620387922E292FA400058180 /* FetchData.swift in Sources */,
 				620388642E2F2EC200058180 /* CupertinoDetail.swift in Sources */,
 				62E41B342BA82FAE00F1288F /* SteperStyle.swift in Sources */,
+				62A748512E8AED8900BBB4D7 /* StickerView.swift in Sources */,
+				62671A562E92546A0052628F /* AnalyzingView.swift in Sources */,
 				62CB6FEE2BC3CE5C0046569A /* CustomTabBarView2.swift in Sources */,
+				62671A522E9252A10052628F /* BottomButtonsView.swift in Sources */,
 				6287AC1F2BB568BF00E8C761 /* ScrollTest.swift in Sources */,
 				62052DAB2E3724E700F171D9 /* CameraView.swift in Sources */,
 				620388662E2F35E600058180 /* LocationsToggle.swift in Sources */,
@@ -297,7 +347,12 @@
 				62052DC52E3775C200F171D9 /* CameraControlsView.swift in Sources */,
 				620387962E2B40EE00058180 /* LoadUserInfo.swift in Sources */,
 				62052DA72E3724AC00F171D9 /* CameraViewController.swift in Sources */,
+				62671A4B2E924FF20052628F /* StickerViewModel.swift in Sources */,
+				62A748552E8AFA7300BBB4D7 /* NewStickerView.swift in Sources */,
 				62CB6FE92BC2775C0046569A /* CustomNavBarView.swift in Sources */,
+				62671A502E92514A0052628F /* StarsView.swift in Sources */,
+				62671A4E2E9250940052628F /* BackgroundView.swift in Sources */,
+				62671A542E9253850052628F /* InitialView.swift in Sources */,
 				62CB6FF02BC628870046569A /* CustomTabBarView3.swift in Sources */,
 				6240665F2BC1418C00487D7A /* TestDialogView.swift in Sources */,
 				62CCD23B2BE5175900F401E8 /* SymbolAnimationView.swift in Sources */,
@@ -314,6 +369,7 @@
 				62E41B322BA7EBF800F1288F /* PickerStyle.swift in Sources */,
 				621D1A692BADBF4700338E95 /* Spline3D.swift in Sources */,
 				6244BD0E2C7C7AA70029B938 /* RenderView.swift in Sources */,
+				62671A582E92633B0052628F /* ExtractingView.swift in Sources */,
 				6240665D2BC0F78F00487D7A /* CustomDialogView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
