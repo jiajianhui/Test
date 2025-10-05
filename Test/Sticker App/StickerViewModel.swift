@@ -39,7 +39,11 @@ class StickerViewModel: ObservableObject {
                 guard let data = try await item.loadTransferable(type: Data.self),
                       let image = UIImage(data: data) else { return }
                 
-                capturedImage = image
+                // 【就这一行！】修正方向
+                let fixedImage = image.fixedOrientation()
+                
+                // 后面全部用修正后的图片
+                capturedImage = fixedImage
                 
                 // 【动画阶段1】切换到识别状态
                 withAnimation(.easeIn(duration: 0.3)) {
@@ -47,10 +51,10 @@ class StickerViewModel: ObservableObject {
                 }
                 
                 // 开始识别（模拟延迟以展示动画）
-                try await Task.sleep(nanoseconds: 1_500_000_000) // 1.5秒
+//                try await Task.sleep(nanoseconds: 1_500_000_000) // 1.5秒
                 
                 // 执行实际识别
-                await performExtraction(image)
+                await performExtraction(fixedImage)
                 
             } catch {
                 print("❌ 错误: \(error)")
@@ -172,5 +176,23 @@ class StickerViewModel: ObservableObject {
         capturedImage = nil
         extractedSubject = nil
         selectedPhoto = nil
+    }
+}
+
+
+extension UIImage {
+    func fixedOrientation() -> UIImage {
+        // 如果方向已经正确，直接返回
+        if imageOrientation == .up {
+            return self
+        }
+        
+        // 重新绘制图片
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        defer { UIGraphicsEndImageContext() }
+        
+        draw(in: CGRect(origin: .zero, size: size))
+        
+        return UIGraphicsGetImageFromCurrentImageContext() ?? self
     }
 }

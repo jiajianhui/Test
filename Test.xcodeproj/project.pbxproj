@@ -222,15 +222,23 @@
 		62671A4C2E9250120052628F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				62671A532E9253850052628F /* InitialView.swift */,
-				62671A592E9264D00052628F /* CompletedView.swift */,
-				62671A572E92633B0052628F /* ExtractingView.swift */,
-				62671A552E92546A0052628F /* AnalyzingView.swift */,
+				62671A5B2E9276E90052628F /* StepView */,
 				62671A4D2E9250940052628F /* BackgroundView.swift */,
 				62671A4F2E92514A0052628F /* StarsView.swift */,
 				62671A512E9252A10052628F /* BottomButtonsView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		62671A5B2E9276E90052628F /* StepView */ = {
+			isa = PBXGroup;
+			children = (
+				62671A532E9253850052628F /* InitialView.swift */,
+				62671A552E92546A0052628F /* AnalyzingView.swift */,
+				62671A572E92633B0052628F /* ExtractingView.swift */,
+				62671A592E9264D00052628F /* CompletedView.swift */,
+			);
+			path = StepView;
 			sourceTree = "<group>";
 		};
 		62CB6FE52BC237F40046569A /* Scroll */ = {
