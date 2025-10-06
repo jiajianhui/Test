@@ -9,36 +9,37 @@ import SwiftUI
 
 // MARK: - 【阶段3】主体跳出动画
 struct ExtractingView: View {
+    
+    // 原图、识别后的主体
     let originalImage: UIImage
     let extractedImage: UIImage
     
+    // 动画相关的变量
     @State private var originalOpacity: Double = 1.0  // 原图逐渐消失
     @State private var subjectScale: CGFloat = 0.8    // 主体放大
     @State private var subjectOffset: CGFloat = 0     // 主体移动
     @State private var showSubject = false            // 控制主体显示
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                // 【背景】原图淡出
-                Image(uiImage: originalImage)
+        ZStack {
+            // 【背景】原图淡出
+            Image(uiImage: originalImage)
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity)
+                .opacity(originalOpacity)
+            
+            // 【前景】主体跳出
+            if showSubject {
+                Image(uiImage: extractedImage)
                     .resizable()
                     .scaledToFit()
-                    .opacity(originalOpacity)
-                
-                // 【前景】主体跳出
-                if showSubject {
-                    Image(uiImage: extractedImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: geometry.size.height * 0.6)
-                        .scaleEffect(subjectScale)
-                        .offset(y: subjectOffset)
-                        // 白色光晕效果
-                        .shadow(color: .white.opacity(0.8), radius: 30)
-                }
+                    .frame(maxWidth: .infinity)
+                    .scaleEffect(subjectScale)
+                    .offset(y: subjectOffset)
+                    // 白色光晕效果
+                    .shadow(color: .white.opacity(0.8), radius: 30)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .onAppear {
             // 延迟0.2秒后开始动画

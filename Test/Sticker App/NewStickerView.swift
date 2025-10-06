@@ -38,27 +38,11 @@ struct NewStickerView: View {
                 
                 // 【阶段4】最终卡片展示
                 if viewModel.currentState == .completed {
-                    CompletedView(image: viewModel.extractedSubject!)
+                    CompletedView(image: viewModel.extractedSubject!, backgroundColor: viewModel.dominantColor)
                         .transition(.scale.combined(with: .opacity))
                 }
             }
             
-            // 顶部关闭按钮（始终显示）
-            VStack {
-                HStack {
-                    Button(action: { viewModel.reset() }) {
-                        Image(systemName: "xmark")
-                            .font(.title3)
-                            .foregroundColor(.white)
-                            .frame(width: 44, height: 44)
-                            .background(Color.black.opacity(0.5))
-                            .clipShape(Circle())
-                    }
-                    .padding()
-                    Spacer()
-                }
-                Spacer()
-            }
             
             // 底部操作按钮
             VStack {
@@ -86,78 +70,10 @@ struct NewStickerView: View {
 
 
 
-// MARK: - 邮票边框形状
-struct StampBorderShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let notchSize: CGFloat = 10
-        let notchSpacing: CGFloat = 15
-        
-        // 绘制四边的齿孔
-        // 顶边
-        var x: CGFloat = 0
-        while x < rect.width {
-            path.addArc(
-                center: CGPoint(x: x + notchSize/2, y: 0),
-                radius: notchSize/2,
-                startAngle: .degrees(180),
-                endAngle: .degrees(0),
-                clockwise: false
-            )
-            x += notchSpacing
-        }
-        
-        // 右边
-        var y: CGFloat = 0
-        while y < rect.height {
-            path.addArc(
-                center: CGPoint(x: rect.width, y: y + notchSize/2),
-                radius: notchSize/2,
-                startAngle: .degrees(270),
-                endAngle: .degrees(90),
-                clockwise: false
-            )
-            y += notchSpacing
-        }
-        
-        // 底边
-        x = rect.width
-        while x > 0 {
-            path.addArc(
-                center: CGPoint(x: x - notchSize/2, y: rect.height),
-                radius: notchSize/2,
-                startAngle: .degrees(0),
-                endAngle: .degrees(180),
-                clockwise: false
-            )
-            x -= notchSpacing
-        }
-        
-        // 左边
-        y = rect.height
-        while y > 0 {
-            path.addArc(
-                center: CGPoint(x: 0, y: y - notchSize/2),
-                radius: notchSize/2,
-                startAngle: .degrees(90),
-                endAngle: .degrees(270),
-                clockwise: false
-            )
-            y -= notchSpacing
-        }
-        
-        return path
-    }
+
+
+
+
+#Preview {
+    NewStickerView()
 }
-
-
-
-// MARK: - 处理状态枚举
-enum ProcessingState {
-    case initial      // 初始状态
-    case analyzing    // 识别中（全屏显示原图）
-    case extracting   // 主体跳出动画
-    case completed    // 完成（显示卡片）
-}
-
-

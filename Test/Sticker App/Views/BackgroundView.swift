@@ -10,6 +10,7 @@ import SwiftUI
 
 // MARK: - 动态背景
 struct BackgroundView: View {
+    
     let state: ProcessingState
     
     var body: some View {
@@ -31,6 +32,9 @@ struct BackgroundView: View {
         .ignoresSafeArea()
     }
     
+    
+    
+    // 不同状态下的背景色
     var backgroundColor: [Color] {
         switch state {
         case .initial:
@@ -44,5 +48,5 @@ struct BackgroundView: View {
 }
 
 #Preview {
-    BackgroundView(state: .initial)
+    BackgroundView(state: .completed)
 }
