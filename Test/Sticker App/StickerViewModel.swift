@@ -91,8 +91,11 @@ class StickerViewModel: ObservableObject {
             return
         }
         
+        // 🆕 裁剪到主体边界
+        let cropped = cropToSubject(extracted) ?? extracted
+        
         // 添加白边
-        let withBorder = addWhiteBorder(to: extracted, borderWidth: 10)
+        let withBorder = addWhiteBorder(to: cropped, borderWidth: 10)
         extractedSubject = withBorder
         
         // 【动画阶段2】切换到跳出动画
@@ -137,6 +140,99 @@ class StickerViewModel: ObservableObject {
         }
     }
     
+    
+    // ===== 裁剪到主体边界 =====
+    private func cropToSubject(_ image: UIImage) -> UIImage? {
+        guard let cgImage = image.cgImage else { return nil }
+        
+        // 找到非透明像素的边界
+        let width = cgImage.width
+        let height = cgImage.height
+        
+        guard let context = CGContext(
+            data: nil,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: width * 4,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return nil }
+        
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        
+        guard let data = context.data else { return nil }
+        let buffer = data.bindMemory(to: UInt8.self, capacity: width * height * 4)
+        
+        var minX = width, maxX = 0
+        var minY = height, maxY = 0
+        
+        // 扫描找到非透明区域
+        for y in 0..<height {
+            for x in 0..<width {
+                let alpha = buffer[(y * width + x) * 4 + 3]
+                if alpha > 10 { // 有内容
+                    minX = min(minX, x)
+                    maxX = max(maxX, x)
+                    minY = min(minY, y)
+                    maxY = max(maxY, y)
+                }
+            }
+        }
+        
+        guard maxX > minX, maxY > minY else { return nil }
+        
+        // 裁剪
+        let cropRect = CGRect(x: minX, y: minY, width: maxX - minX + 1, height: maxY - minY + 1)
+        guard let croppedCG = cgImage.cropping(to: cropRect) else { return nil }
+        let croppedImage = UIImage(cgImage: croppedCG, scale: image.scale, orientation: image.imageOrientation)
+        
+        // 🆕 统一缩放到固定尺寸（关键！）
+        return resizeToSquare(croppedImage, targetSize: 800)
+    }
+
+    // 🆕 缩放到正方形画布（保持主体居中）
+    private func resizeToSquare(_ image: UIImage, targetSize: CGFloat) -> UIImage {
+        let size = image.size
+        let aspectRatio = size.width / size.height
+        
+        // 计算主体尺寸（占画布的80%）
+        let contentRatio: CGFloat = 0.8
+        let contentSize = targetSize * contentRatio
+        
+        var drawSize: CGSize
+        if aspectRatio > 1 {
+            // 横向图
+            drawSize = CGSize(width: contentSize, height: contentSize / aspectRatio)
+        } else {
+            // 纵向图
+            drawSize = CGSize(width: contentSize * aspectRatio, height: contentSize)
+        }
+        
+        // 计算居中位置
+        let x = (targetSize - drawSize.width) / 2
+        let y = (targetSize - drawSize.height) / 2
+        
+        // 使用高质量渲染
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 3.0 // 🎯 3x 分辨率（清晰）
+        format.opaque = false
+        
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: targetSize, height: targetSize), format: format)
+        
+        return renderer.image { context in
+            // 高质量插值
+            context.cgContext.interpolationQuality = .high
+            
+            // 透明背景
+            UIColor.clear.setFill()
+            context.fill(CGRect(origin: .zero, size: CGSize(width: targetSize, height: targetSize)))
+            
+            // 绘制图片
+            image.draw(in: CGRect(x: x, y: y, width: drawSize.width, height: drawSize.height))
+        }
+    }
+    
     // ===== 应用蒙版 =====
     private func applyMask(_ mask: CVPixelBuffer, to image: UIImage) -> UIImage? {
         guard let cgImage = image.cgImage else { return nil }
@@ -161,29 +257,54 @@ class StickerViewModel: ObservableObject {
         return UIImage(cgImage: cgOutput)
     }
     
-    // ===== 添加白边 =====
+    
+    // ===== 添加白色描边（固定像素宽度） =====
     private func addWhiteBorder(to image: UIImage, borderWidth: CGFloat) -> UIImage {
-        let newSize = CGSize(
-            width: image.size.width + borderWidth * 2,
-            height: image.size.height + borderWidth * 2
-        )
+        let scale: CGFloat = 3.0 // 匹配上面的scale
+        let size = image.size
         
-        UIGraphicsBeginImageContextWithOptions(newSize, false, image.scale)
-        defer { UIGraphicsEndImageContext() }
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = scale
+        format.opaque = false
         
-        guard let context = UIGraphicsGetCurrentContext() else { return image }
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
         
-        context.setFillColor(UIColor.clear.cgColor)
-        context.fill(CGRect(origin: .zero, size: newSize))
-        
-        image.draw(in: CGRect(
-            x: borderWidth,
-            y: borderWidth,
-            width: image.size.width,
-            height: image.size.height
-        ))
-        
-        return UIGraphicsGetImageFromCurrentImageContext() ?? image
+        return renderer.image { context in
+            let ctx = context.cgContext
+            
+            // 高质量渲染
+            ctx.interpolationQuality = .high
+            ctx.setShouldAntialias(true)
+            
+            let rect = CGRect(origin: .zero, size: size)
+            
+            // 1. 绘制白色描边层
+            let offset = borderWidth
+            let directions: [(CGFloat, CGFloat)] = [
+                (-offset, -offset), (0, -offset), (offset, -offset),
+                (-offset, 0),                      (offset, 0),
+                (-offset, offset),  (0, offset),  (offset, offset)
+            ]
+            
+            for (dx, dy) in directions {
+                ctx.saveGState()
+                ctx.translateBy(x: dx, y: dy)
+                
+                // 绘制图片
+                image.draw(in: rect)
+                
+                // 用白色填充
+                ctx.setBlendMode(.sourceIn)
+                ctx.setFillColor(UIColor.white.cgColor)
+                ctx.fill(rect)
+                ctx.setBlendMode(.normal)
+                
+                ctx.restoreGState()
+            }
+            
+            // 2. 绘制原图
+            image.draw(in: rect)
+        }
     }
     
     
