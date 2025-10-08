@@ -38,6 +38,8 @@
 		62671A562E92546A0052628F /* AnalyzingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A552E92546A0052628F /* AnalyzingView.swift */; };
 		62671A582E92633B0052628F /* ExtractingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A572E92633B0052628F /* ExtractingView.swift */; };
 		62671A5A2E9264D00052628F /* CompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A592E9264D00052628F /* CompletedView.swift */; };
+		62671A5D2E9664050052628F /* RippleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671A5C2E9664050052628F /* RippleEffect.swift */; };
+		62671AAA2E966CDF0052628F /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62671AA92E966CDF0052628F /* BottomButton.swift */; };
 		627CF1682BBFBE7F0075325A /* NavigationDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627CF1672BBFBE7F0075325A /* NavigationDemo.swift */; };
 		6287AC1F2BB568BF00E8C761 /* ScrollTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6287AC1E2BB568BF00E8C761 /* ScrollTest.swift */; };
 		6287AC2B2BB7D2BA00E8C761 /* ScrollCardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6287AC2A2BB7D2BA00E8C761 /* ScrollCardTest.swift */; };
@@ -86,6 +88,8 @@
 		62671A552E92546A0052628F /* AnalyzingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyzingView.swift; sourceTree = "<group>"; };
 		62671A572E92633B0052628F /* ExtractingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtractingView.swift; sourceTree = "<group>"; };
 		62671A592E9264D00052628F /* CompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedView.swift; sourceTree = "<group>"; };
+		62671A5C2E9664050052628F /* RippleEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RippleEffect.swift; sourceTree = "<group>"; };
+		62671AA92E966CDF0052628F /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
 		627CF1672BBFBE7F0075325A /* NavigationDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationDemo.swift; sourceTree = "<group>"; };
 		6287AC1E2BB568BF00E8C761 /* ScrollTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollTest.swift; sourceTree = "<group>"; };
 		6287AC2A2BB7D2BA00E8C761 /* ScrollCardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollCardTest.swift; sourceTree = "<group>"; };
@@ -215,6 +219,8 @@
 				62A748542E8AFA7300BBB4D7 /* NewStickerView.swift */,
 				62671A4C2E9250120052628F /* Views */,
 				62671A4A2E924FF20052628F /* StickerViewModel.swift */,
+				62671AA82E966CB80052628F /* Components */,
+				62671A5C2E9664050052628F /* RippleEffect.swift */,
 			);
 			path = "Sticker App";
 			sourceTree = "<group>";
@@ -239,6 +245,14 @@
 				62671A592E9264D00052628F /* CompletedView.swift */,
 			);
 			path = StepView;
+			sourceTree = "<group>";
+		};
+		62671AA82E966CB80052628F /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				62671AA92E966CDF0052628F /* BottomButton.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		62CB6FE52BC237F40046569A /* Scroll */ = {
@@ -340,6 +354,7 @@
 				62052DA52E37248B00F171D9 /* CustomCameraView.swift in Sources */,
 				6287AC2B2BB7D2BA00E8C761 /* ScrollCardTest.swift in Sources */,
 				62671A5A2E9264D00052628F /* CompletedView.swift in Sources */,
+				62671A5D2E9664050052628F /* RippleEffect.swift in Sources */,
 				620387922E292FA400058180 /* FetchData.swift in Sources */,
 				620388642E2F2EC200058180 /* CupertinoDetail.swift in Sources */,
 				62E41B342BA82FAE00F1288F /* SteperStyle.swift in Sources */,
@@ -354,6 +369,7 @@
 				62CB6FE72BC2382E0046569A /* ScrollEffectView.swift in Sources */,
 				62052DC52E3775C200F171D9 /* CameraControlsView.swift in Sources */,
 				620387962E2B40EE00058180 /* LoadUserInfo.swift in Sources */,
+				62671AAA2E966CDF0052628F /* BottomButton.swift in Sources */,
 				62052DA72E3724AC00F171D9 /* CameraViewController.swift in Sources */,
 				62671A4B2E924FF20052628F /* StickerViewModel.swift in Sources */,
 				62A748552E8AFA7300BBB4D7 /* NewStickerView.swift in Sources */,

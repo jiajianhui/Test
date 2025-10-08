@@ -16,10 +16,9 @@ struct AnalyzingView: View {
             Image(uiImage: image)
                 .resizable()
                 .scaledToFit()
-                .frame(maxWidth: .infinity)
-            
-            
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        
         .overlay(alignment: .bottom) {
             // 提示文字
             HStack(spacing: 10) {
@@ -32,7 +31,7 @@ struct AnalyzingView: View {
             .padding()
             .background(Color.black.opacity(0.3))
             .cornerRadius(12)
-            .offset(y:60)
+            .offset(y:-30)
         }
     }
 }
