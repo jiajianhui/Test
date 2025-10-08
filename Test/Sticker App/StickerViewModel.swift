@@ -72,7 +72,7 @@ class StickerViewModel: ObservableObject {
                 }
                 
                 // 开始识别（模拟延迟以展示动画）
-                try await Task.sleep(nanoseconds: 1_500_000_000) // 1.5秒
+                try await Task.sleep(nanoseconds: 1_000_000_000) // 1.0秒
                 
                 // 执行实际识别
                 await performExtraction(fixedImage)
@@ -95,7 +95,7 @@ class StickerViewModel: ObservableObject {
         let cropped = cropToSubject(extracted) ?? extracted
         
         // 添加白边
-        let withBorder = addWhiteBorder(to: cropped, borderWidth: 10)
+        let withBorder = addWhiteBorder(to: cropped, borderWidth: 16)
         extractedSubject = withBorder
         
         // 【动画阶段2】切换到跳出动画
@@ -104,7 +104,7 @@ class StickerViewModel: ObservableObject {
         }
         
         // 🎨 提取主色
-        dominantColor = extractDominantColor(from: image)
+        dominantColor = extractRefinedColor(from: cropped)
 
         
         // 等待跳出动画完成
@@ -144,11 +144,11 @@ class StickerViewModel: ObservableObject {
     // ===== 裁剪到主体边界 =====
     private func cropToSubject(_ image: UIImage) -> UIImage? {
         guard let cgImage = image.cgImage else { return nil }
-        
-        // 找到非透明像素的边界
-        let width = cgImage.width
-        let height = cgImage.height
-        
+
+        let scaleFactor: CGFloat = 0.2 // 降低分辨率到20%
+        let width = Int(CGFloat(cgImage.width) * scaleFactor)
+        let height = Int(CGFloat(cgImage.height) * scaleFactor)
+
         guard let context = CGContext(
             data: nil,
             width: width,
@@ -158,20 +158,20 @@ class StickerViewModel: ObservableObject {
             space: CGColorSpaceCreateDeviceRGB(),
             bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
         ) else { return nil }
-        
+
+        context.interpolationQuality = .low
         context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-        
+
         guard let data = context.data else { return nil }
         let buffer = data.bindMemory(to: UInt8.self, capacity: width * height * 4)
-        
+
         var minX = width, maxX = 0
         var minY = height, maxY = 0
-        
-        // 扫描找到非透明区域
+
         for y in 0..<height {
             for x in 0..<width {
                 let alpha = buffer[(y * width + x) * 4 + 3]
-                if alpha > 10 { // 有内容
+                if alpha > 10 {
                     minX = min(minX, x)
                     maxX = max(maxX, x)
                     minY = min(minY, y)
@@ -179,17 +179,25 @@ class StickerViewModel: ObservableObject {
                 }
             }
         }
-        
+
         guard maxX > minX, maxY > minY else { return nil }
-        
-        // 裁剪
-        let cropRect = CGRect(x: minX, y: minY, width: maxX - minX + 1, height: maxY - minY + 1)
+
+        // 转换回原始坐标
+        let factorX = CGFloat(cgImage.width) / CGFloat(width)
+        let factorY = CGFloat(cgImage.height) / CGFloat(height)
+        let cropRect = CGRect(
+            x: CGFloat(minX) * factorX,
+            y: CGFloat(minY) * factorY,
+            width: CGFloat(maxX - minX + 1) * factorX,
+            height: CGFloat(maxY - minY + 1) * factorY
+        )
+
         guard let croppedCG = cgImage.cropping(to: cropRect) else { return nil }
         let croppedImage = UIImage(cgImage: croppedCG, scale: image.scale, orientation: image.imageOrientation)
-        
-        // 🆕 统一缩放到固定尺寸（关键！）
+
         return resizeToSquare(croppedImage, targetSize: 800)
     }
+
 
     // 🆕 缩放到正方形画布（保持主体居中）
     private func resizeToSquare(_ image: UIImage, targetSize: CGFloat) -> UIImage {
@@ -215,14 +223,14 @@ class StickerViewModel: ObservableObject {
         
         // 使用高质量渲染
         let format = UIGraphicsImageRendererFormat()
-        format.scale = 3.0 // 🎯 3x 分辨率（清晰）
+        format.scale = 2.0 // 🎯 3x 分辨率（清晰）
         format.opaque = false
         
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: targetSize, height: targetSize), format: format)
         
         return renderer.image { context in
             // 高质量插值
-            context.cgContext.interpolationQuality = .high
+            context.cgContext.interpolationQuality = .medium
             
             // 透明背景
             UIColor.clear.setFill()
@@ -307,38 +315,6 @@ class StickerViewModel: ObservableObject {
         }
     }
     
-    
-    // 提取主色
-    private func extractDominantColor(from image: UIImage, brightnessFactor: CGFloat = 1.6) -> Color {
-        guard let cgImage = image.cgImage else { return .gray }
-        
-        let size = CGSize(width: 1, height: 1) // 缩小为 1x1 图像取平均色
-        UIGraphicsBeginImageContext(size)
-        guard let context = UIGraphicsGetCurrentContext() else { return .gray }
-        
-        context.interpolationQuality = .medium
-        context.draw(cgImage, in: CGRect(origin: .zero, size: size))
-        
-        guard let pixelData = context.data else {
-            UIGraphicsEndImageContext()
-            return .gray
-        }
-        
-        let data = pixelData.bindMemory(to: UInt8.self, capacity: 4)
-        var r = CGFloat(data[2]) / 255.0
-        var g = CGFloat(data[1]) / 255.0
-        var b = CGFloat(data[0]) / 255.0
-        
-        UIGraphicsEndImageContext()
-        
-        // 提升亮度
-        r = min(r * brightnessFactor, 1.0)
-        g = min(g * brightnessFactor, 1.0)
-        b = min(b * brightnessFactor, 1.0)
-        
-        return Color(red: r, green: g, blue: b)
-    }
-
 
     
     // ===== 保存 =====
@@ -359,6 +335,82 @@ class StickerViewModel: ObservableObject {
     }
 }
 
+
+/**
+ 从图片中提取平均色，并调整饱和度和亮度，生成“高级”背景色。
+
+ @param image 要处理的 UIImage。
+ @param saturationFactor 饱和度乘数 (0.0 - 1.0)。例如，0.3 会使颜色更“灰”。
+ @param brightnessFactor 亮度乘数 (0.0 - 1.0)。例如，0.9 会使颜色更“亮”。
+ @return 调整后的 SwiftUI Color。
+ */
+private func extractRefinedColor(from image: UIImage,
+                                 saturation: CGFloat = 0.3,
+                                 brightness: CGFloat = 0.95) -> Color {
+    
+    // --- 第 1 步：提取平均色 (使用 UIGraphicsImageRenderer 更简洁) ---
+    let size = CGSize(width: 1, height: 1)
+    let renderer = UIGraphicsImageRenderer(size: size)
+    
+    let uiColor = renderer.image { context in
+        image.draw(in: CGRect(origin: .zero, size: size))
+    }.averageColor // 使用 UIImage 的 averageColor 扩展（见下方）
+    
+    guard let baseColor = uiColor else { return .gray }
+
+    // --- 第 2 步：转换为 HSB 并调整 ---
+    var hue: CGFloat = 0
+    var currentSaturation: CGFloat = 0
+    var currentBrightness: CGFloat = 0
+    var alpha: CGFloat = 0
+
+    // 将 UIColor 转换为 HSB 空间
+    baseColor.getHue(&hue, saturation: &currentSaturation, brightness: &currentBrightness, alpha: &alpha)
+
+    // --- 第 3 步：应用自定义饱和度和亮度 ---
+    
+    // 强制使用自定义饱和度和亮度。
+    // 例如，您的蓝色瓶子颜色 (低饱和度、高亮度) 变为：
+    // 新的饱和度 = 0.3 (变灰)
+    // 新的亮度   = 0.9 (变亮)
+    let newSaturation = min(currentSaturation * saturation, 1.0)
+    let newBrightness = min(brightness, 1.0) // 直接使用您想要的高亮度值
+
+    // --- 第 4 步：创建新的 UIColor ---
+    let finalUIColor = UIColor(hue: hue, saturation: newSaturation, brightness: newBrightness, alpha: 1.0)
+
+    // --- 第 5 步：返回 SwiftUI Color ---
+    return Color(finalUIColor)
+}
+
+
+// 辅助扩展：获取 UIImage 的平均色（基于 Core Image 或 UIGraphics）
+// 为了代码完整性，这里使用我第一个回答中介绍的 Core Image 方法
+extension UIImage {
+    var averageColor: UIColor? {
+        guard let ciImage = CIImage(image: self) else { return nil }
+        let extentVector = CIVector(cgRect: ciImage.extent)
+        guard let filter = CIFilter(name: "CIAreaAverage", parameters: [kCIInputImageKey: ciImage, kCIInputExtentKey: extentVector]) else { return nil }
+        guard let outputImage = filter.outputImage else { return nil }
+        
+        let context = CIContext(options: [.workingColorSpace: NSNull()])
+        var bitmap = [UInt8](repeating: 0, count: 4)
+        
+        context.render(outputImage,
+                       toBitmap: &bitmap,
+                       rowBytes: 4,
+                       bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
+                       format: .RGBA8,
+                       colorSpace: nil)
+        
+        let r = CGFloat(bitmap[0]) / 255.0
+        let g = CGFloat(bitmap[1]) / 255.0
+        let b = CGFloat(bitmap[2]) / 255.0
+        let a = CGFloat(bitmap[3]) / 255.0
+        
+        return UIColor(red: r, green: g, blue: b, alpha: a)
+    }
+}
 
 extension UIImage {
     func fixedOrientation() -> UIImage {
