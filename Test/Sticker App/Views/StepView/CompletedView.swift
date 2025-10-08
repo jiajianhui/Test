@@ -56,7 +56,14 @@ struct CompletedView: View {
                     .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
-            .frame(width: 320, height: 450)
+            .frame(width: 320, height: 430)
+            .background(content: {
+                ZStack {
+                    backgroundColor
+                    DotGridBackground()
+                }
+                .padding()
+            })
             .background(backgroundColor)
             .cornerRadius(16)
             .shadow(color: .black.opacity(0.3), radius: 20, x: 0, y: 10)
@@ -75,5 +82,5 @@ struct CompletedView: View {
 }
 
 #Preview {
-    CompletedView(image: UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 200))!, backgroundColor: .blue)
+    CompletedView(image: UIImage(systemName: "heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 200))!, backgroundColor: .green)
 }
