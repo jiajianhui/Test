@@ -394,8 +394,6 @@ class StickerViewModel: ObservableObject {
     }
 }
 
-// 测试git
-
 /**
  从图片中提取平均色，并调整饱和度和亮度，生成“高级”背景色。
 
