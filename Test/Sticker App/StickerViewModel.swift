@@ -266,8 +266,8 @@ class StickerViewModel: ObservableObject {
     }
     
     
-    // ===== 添加白色描边（固定像素宽度） =====
-    private func addWhiteBorder(to image: UIImage, borderWidth: CGFloat) -> UIImage {
+    // ===== 添加白色描边（速度最快） =====
+    private func addSampleWhiteBorder(to image: UIImage, borderWidth: CGFloat) -> UIImage {
         let scale: CGFloat = 3.0 // 匹配上面的scale
         let size = image.size
         
@@ -313,6 +313,65 @@ class StickerViewModel: ObservableObject {
             // 2. 绘制原图
             image.draw(in: rect)
         }
+    }
+    
+    
+    // ===== 添加白色描边（质量最好，速度慢） =====
+    private func addWhiteBorder(to image: UIImage, borderWidth: CGFloat) -> UIImage {
+        let scale: CGFloat = 3.0
+        let size = image.size
+        
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = scale
+        format.opaque = false
+        
+        // 第1步: 绘制白边
+        let withBorder = UIGraphicsImageRenderer(size: size, format: format).image { context in
+            let ctx = context.cgContext
+            
+            ctx.interpolationQuality = .medium
+            ctx.setShouldAntialias(true)
+            ctx.setAllowsAntialiasing(true)
+            
+            let rect = CGRect(origin: .zero, size: size)
+            
+            // 🎯 增加到 32 个方向 (从 24 改成 32)
+            let directionCount = 32
+            for i in 0..<directionCount {
+                let angle = CGFloat(i) * (2 * .pi / CGFloat(directionCount))
+                let dx = cos(angle) * borderWidth
+                let dy = sin(angle) * borderWidth
+                
+                ctx.saveGState()
+                ctx.translateBy(x: dx, y: dy)
+                image.draw(in: rect)
+                ctx.setBlendMode(.sourceIn)
+                ctx.setFillColor(UIColor.white.cgColor)
+                ctx.fill(rect)
+                ctx.setBlendMode(.normal)
+                ctx.restoreGState()
+            }
+            
+            image.draw(in: rect)
+        }
+        
+        // 第2步: 🎯 加强模糊 (从 0.8 改成 1.2)
+        guard let ciImage = CIImage(image: withBorder),
+              let blurFilter = CIFilter(name: "CIGaussianBlur") else {
+            return withBorder
+        }
+        
+        blurFilter.setValue(ciImage, forKey: kCIInputImageKey)
+        blurFilter.setValue(1.2, forKey: kCIInputRadiusKey)  // ✅ 从 0.8 改成 1.2
+        
+        guard let output = blurFilter.outputImage else { return withBorder }
+        
+        let context = CIContext()
+        guard let cgImage = context.createCGImage(output, from: ciImage.extent) else {
+            return withBorder
+        }
+        
+        return UIImage(cgImage: cgImage, scale: withBorder.scale, orientation: withBorder.imageOrientation)
     }
     
 
