@@ -17,6 +17,10 @@ private let sales: [Pancakes] = [
     .init(name: "Jian Bing", sales: 367)
 ]
 
+var totalSales: Int {
+    sales.reduce(0) { $0 + $1.sales }
+}
+
 struct PieChart: View {
     var body: some View {
         ScrollView {
@@ -40,15 +44,23 @@ struct PieChart: View {
             Chart(sales, id: \.name) { element in
                 SectorMark(
                     angle: .value("scale", element.sales),
-                    innerRadius: .ratio(0.618),
+                    innerRadius: .ratio(0.6),
                     angularInset: 3
                 )
                 .foregroundStyle(by: .value("scale", element.name))
                 .cornerRadius(6)
+                .annotation(position: .overlay, alignment: .center, spacing: 10) {
+                    
+                    let percentage = Double(element.sales) / Double(totalSales) * 100
+                    Text("\(percentage, specifier: "%.1f")%")
+                        .font(.system(size: 14, weight: .medium, design: .rounded))
+                        .foregroundColor(.white)
+                }
             }
             .chartPlotStyle { plotArea in
                 plotArea.frame(height: 360)
             }
+
             .chartXAxis(.hidden)
             
             .chartLegend(alignment: .center, spacing: 20)
