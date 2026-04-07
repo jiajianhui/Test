@@ -50,6 +50,7 @@
 		6287AC2B2BB7D2BA00E8C761 /* ScrollCardTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6287AC2A2BB7D2BA00E8C761 /* ScrollCardTest.swift */; };
 		62A748512E8AED8900BBB4D7 /* StickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A748502E8AED8900BBB4D7 /* StickerView.swift */; };
 		62A748552E8AFA7300BBB4D7 /* NewStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A748542E8AFA7300BBB4D7 /* NewStickerView.swift */; };
+		62ACF35B2F85095200C88F57 /* XXX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62ACF35A2F85095200C88F57 /* XXX.swift */; };
 		62CB6FE72BC2382E0046569A /* ScrollEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CB6FE62BC2382E0046569A /* ScrollEffectView.swift */; };
 		62CB6FE92BC2775C0046569A /* CustomNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CB6FE82BC2775C0046569A /* CustomNavBarView.swift */; };
 		62CB6FEB2BC39DCF0046569A /* CustomTabBarView1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CB6FEA2BC39DCF0046569A /* CustomTabBarView1.swift */; };
@@ -106,6 +107,7 @@
 		6287AC2A2BB7D2BA00E8C761 /* ScrollCardTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollCardTest.swift; sourceTree = "<group>"; };
 		62A748502E8AED8900BBB4D7 /* StickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickerView.swift; sourceTree = "<group>"; };
 		62A748542E8AFA7300BBB4D7 /* NewStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStickerView.swift; sourceTree = "<group>"; };
+		62ACF35A2F85095200C88F57 /* XXX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XXX.swift; sourceTree = "<group>"; };
 		62CB6FE62BC2382E0046569A /* ScrollEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollEffectView.swift; sourceTree = "<group>"; };
 		62CB6FE82BC2775C0046569A /* CustomNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBarView.swift; sourceTree = "<group>"; };
 		62CB6FEA2BC39DCF0046569A /* CustomTabBarView1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView1.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				625A9A352B956A4D00740AFA /* Preview Content */,
 				625A9A362B956A4D00740AFA /* Preview Assets.xcassets */,
 				62D624782F7A91A70072909F /* NavigationTransition.swift */,
+				62ACF35A2F85095200C88F57 /* XXX.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -388,6 +391,7 @@
 				625A9A462B95D55300740AFA /* ColorfulBtn.swift in Sources */,
 				62CB6FE72BC2382E0046569A /* ScrollEffectView.swift in Sources */,
 				62052DC52E3775C200F171D9 /* CameraControlsView.swift in Sources */,
+				62ACF35B2F85095200C88F57 /* XXX.swift in Sources */,
 				620387962E2B40EE00058180 /* LoadUserInfo.swift in Sources */,
 				62671AAA2E966CDF0052628F /* BottomButton.swift in Sources */,
 				62052DA72E3724AC00F171D9 /* CameraViewController.swift in Sources */,
