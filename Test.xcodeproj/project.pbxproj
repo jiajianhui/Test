@@ -638,8 +638,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/splinetool/spline-ios";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.53;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
