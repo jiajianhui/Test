@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-// 数据结构
+// MARK: -  数据结构
 struct Book: Identifiable, Hashable {
     let id: UUID = UUID()
     let cover: String
@@ -85,6 +85,8 @@ let books: [Book] = [
     )
 ]
 
+
+// MARK: - 主 View
 struct Demo: View {
     
     enum MyTab {
@@ -117,8 +119,6 @@ struct Demo: View {
                     Text("3")
                 }
             }
-
-            
             
         }
         
@@ -168,17 +168,24 @@ extension Demo {
                 .scrollTargetLayout()
             }
             .scrollIndicators(.hidden)
-            .scrollTargetBehavior(.viewAligned)  // 自动对齐附近元素、.paging——一页一页翻（像banner轮播）
+//            .scrollTargetBehavior(.viewAligned)  // 自动对齐附近元素、.paging——一页一页翻（像banner轮播）
             
             .navigationTitle("我的书架")
+            
+            // 写在 NavigationStack 里面
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Image("color")
+                        .resizable()
+                        .scaledToFit()
+                        
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showSheet = true
                     } label: {
                         Image(systemName: "plus")
                     }
-
                 }
 
             }
@@ -225,6 +232,7 @@ extension Demo {
 }
 
 
+// 卡片
 struct BookCover: View {
     
     let book: Book
@@ -233,6 +241,7 @@ struct BookCover: View {
         ZStack {
             RoundedRectangle(cornerRadius: 30, style: .continuous)
                 .fill(book.color.opacity(0.07))
+                .strokeBorder(book.color.opacity(0.2), lineWidth: 1)
                 .frame(height: 160)
             HStack {
                 
@@ -271,10 +280,21 @@ struct BookCover: View {
     }
 }
 
+// 详情
 struct BookDetail: View {
     
     let book: Book
     let namespace: Namespace.ID
+    
+    @State private var showSheet: Bool = false
+    
+    
+    // 这是一个“自定义 sheet 高度策略，iOS 系统会根据这个策略去计算你的 sheet 最终高度
+    struct SmallSheetDetent: CustomPresentationDetent {
+        static func height(in context: Context) -> CGFloat? {
+            context.maxDetentValue * 0.8
+        }
+    }
     
     var body: some View {
         ScrollView {
@@ -333,12 +353,59 @@ struct BookDetail: View {
         .scrollIndicators(.hidden)
         .ignoresSafeArea()
         
-        //
+        // toolbar 不是全局的，每个页面都有自己的一套 toolbar 状态
+        // SwiftUI 的 toolbar 是 跟着页面走的，不是跟着 NavigationStack 走的。
+        // 在 BookDetail 的 body 结尾处修改
+        .toolbar {
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            }
+            
+            ToolbarSpacer(.flexible, placement: .topBarTrailing)
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                
+                
+                Menu {
+                    Button("编辑", systemImage: "pencil.line") {
+                        
+                    }
+                    
+                    Button("详情", systemImage: "info.circle") {
+                        showSheet = true
+                    }
+                    
+                    Divider()
+                    
+                    Button("删除", systemImage: "trash", role: .destructive) {
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                }
+
+            }
+            
+            
+        }
+        .sheet(isPresented: $showSheet, content: {
+            Text("1")
+                .presentationDetents([.medium, .custom(SmallSheetDetent.self)])
+                .presentationDragIndicator(.visible)
+            
+        })
+        
+        
+        // 从 matchedTransitionSource 卡片位置，直接放大过来
         .navigationTransition(.zoom(sourceID: book.id, in: namespace))
     }
 }
 
-#Preview {
+#Preview("详情页") {
     
     @Previewable @Namespace var namespace
     
