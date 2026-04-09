@@ -8,7 +8,7 @@
 import SwiftUI
 
 //CaseIterable用于提供枚举中的集合
-enum Tab: String, CaseIterable {
+enum AppTab: String, CaseIterable {
     case house
     case message
     case person
@@ -18,7 +18,7 @@ enum Tab: String, CaseIterable {
 
 struct CustomTabBarView3: View {
     
-    @State var selectedTab: Tab = .house
+    @State var selectedTab: AppTab = .house
     
     private var selectedIcon: String {
         selectedTab.rawValue + ".fill"
@@ -45,7 +45,7 @@ struct CustomTabBarView3: View {
         ZStack {
             
             TabView(selection: $selectedTab) {
-                ForEach(Tab.allCases, id: \.rawValue) { item in
+                ForEach(AppTab.allCases, id: \.rawValue) { item in
                     HStack {
                         Image(systemName: item.rawValue)
                         Text(item.rawValue)
@@ -71,7 +71,7 @@ extension CustomTabBarView3 {
         VStack {
             Spacer()
             HStack(spacing: 0) {
-                ForEach(Tab.allCases, id: \.rawValue) { item in
+                ForEach(AppTab.allCases, id: \.rawValue) { item in
                     VStack {
                         Image(systemName: item == selectedTab ? selectedIcon : item.rawValue)
                             .resizable()
