@@ -90,18 +90,25 @@ let books: [Book] = [
 struct Demo: View {
     
     enum MyTab {
-        case home, list, setting
+        case home, list, setting, sheet
     }
     
     @State private var currentTab: MyTab = .home
     
+    
+    // plus
     @State private var showSheet: Bool = false
+    
+    // setting
+    @State private var showSetting: Bool = false
+    
     
     // 动画相关
     @Namespace private var namespace
     
     var body: some View {
         TabView(selection: $currentTab) {
+            
             Tab("home", systemImage: "house", value: .home) {
                 home
             }
@@ -120,6 +127,26 @@ struct Demo: View {
                 }
             }
             
+            // 独立的添加按钮
+            Tab("list", systemImage: "plus", value: .sheet, role: .search) {
+                
+            }
+            
+        }
+        .onChange(of: currentTab, { oldValue, newValue in
+            if newValue == .sheet {
+                showSheet = true
+                currentTab = oldValue
+            }
+        })
+        .sheet(isPresented: $showSheet) {
+            AddView()
+                .interactiveDismissDisabled() // 禁止滑动关闭
+        }
+        .sheet(isPresented: $showSetting) {
+            Color.green
+                .ignoresSafeArea()
+                .presentationDragIndicator(.visible)
         }
         
         // 类似Apple Music的效果
@@ -171,20 +198,19 @@ extension Demo {
 //            .scrollTargetBehavior(.viewAligned)  // 自动对齐附近元素、.paging——一页一页翻（像banner轮播）
             
             .navigationTitle("我的书架")
+            .navigationSubtitle("所有的书都在这里")
             
             // 写在 NavigationStack 里面
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Image("color")
-                        .resizable()
-                        .scaledToFit()
+                    Image(systemName: "calendar.badge")
                         
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        showSheet = true
+                        showSetting = true
                     } label: {
-                        Image(systemName: "plus")
+                        Image(systemName: "gearshape")
                     }
                 }
 
@@ -194,11 +220,6 @@ extension Demo {
             .navigationDestination(for: Book.self) { book in
                 BookDetail(book: book, namespace: namespace)
             }
-        }
-        .sheet(isPresented: $showSheet) {
-            Color.green
-                .ignoresSafeArea()
-                .presentationDragIndicator(.visible)
         }
         
         
@@ -405,6 +426,51 @@ struct BookDetail: View {
     }
 }
 
+
+// 添加
+struct AddView: View {
+    
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        NavigationStack {
+            VStack {
+                Image(systemName: "star.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 120)
+                    .foregroundStyle(.yellow)
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "checkmark")
+                    }
+                    .buttonStyle(.glassProminent)
+                    
+                }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    
+                }
+            }
+            
+            .navigationTitle("添加")
+            .navigationSubtitle("添加你喜欢的书籍")
+            .navigationBarTitleDisplayMode(.inline)
+            
+        }
+    }
+}
+
+
 #Preview("详情页") {
     
     @Previewable @Namespace var namespace
@@ -422,4 +488,10 @@ struct BookDetail: View {
         ),
         namespace: namespace
     )
+}
+
+
+
+#Preview("添加页") {
+    AddView()
 }
